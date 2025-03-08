@@ -6,4 +6,5 @@
     <string name="btn_signup">Signup</string>
     <string name="edt_firstname">First Name</string>
     <string name="edt_lastname">Last Name</string>
+    <string name="user_name">Goodness</string>
 </resources>

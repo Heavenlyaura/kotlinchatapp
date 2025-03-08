@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class Signup : AppCompatActivity() {
 
@@ -20,6 +22,7 @@ class Signup : AppCompatActivity() {
     private  lateinit var edtPassword: EditText
     private  lateinit var btnSignup: Button
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,7 @@ class Signup : AppCompatActivity() {
             val email = edtEmail.text.toString()
             val password = edtPassword.text.toString()
 
-            signup(email, password)
+            signup(firstname, lastname, email, password)
         }
 
 
@@ -52,15 +55,23 @@ class Signup : AppCompatActivity() {
         }
     }
 
-    private fun signup(email: String, password: String) {
+    private fun signup(firstName: String, lastName: String, email: String, password: String) {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    addUserToDatabase(firstName, lastName, email, mAuth.currentUser?.uid!!)
                     val intent = Intent(this@Signup, MainActivity::class.java)
+                    finish()
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@Signup, "Some error occurred", Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
+    private fun addUserToDatabase(firstName: String, lastName: String, email: String, uid: String) {
+        mDbRef = FirebaseDatabase.getInstance().getReference()
+        mDbRef.child("user").child(uid).setValue(User(firstName, lastName, email, uid))
+    }
+
 }
