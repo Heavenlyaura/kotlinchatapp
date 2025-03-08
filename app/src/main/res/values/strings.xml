@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Kotlin Chat App</string>
+    <string name="edt_email">Email</string>
+    <string name="edt_password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_signup">Signup</string>
+    <string name="edt_firstname">First Name</string>
+    <string name="edt_lastname">Last Name</string>
 </resources>
